@@ -2,12 +2,14 @@ package goset
 
 import "fmt"
 
-type Set map[any]struct{}
+type Any interface{}
+
+type Set map[Any]struct{}
 
 type EmptyValue struct{}
 
 // Add adds an item any the set and returns true if the item was added, false if it was already present.
-func (set Set) Add(item any) bool {
+func (set Set) Add(item Any) bool {
 	if _, exists := set[item]; !exists {
 		set[item] = EmptyValue{}
 		return true
@@ -23,13 +25,13 @@ func (set Set) Clear() {
 }
 
 // Has checks if an item is present in the set.
-func (set Set) Has(item any) bool {
+func (set Set) Has(item Any) bool {
 	_, exists := set[item]
 	return exists
 }
 
 // Remove removes an item from the set and returns true if the item was present, false otherwise.
-func (set Set) Remove(item any) bool {
+func (set Set) Remove(item Any) bool {
 	_, exists := set[item]
 	if !exists {
 		return false
@@ -39,8 +41,8 @@ func (set Set) Remove(item any) bool {
 }
 
 // All returns a slice of all items in the set.
-func (set Set) All() []any {
-	items := make([]any, 0, len(set))
+func (set Set) All() []Any {
+	items := make([]Any, 0, len(set))
 	for item := range set {
 		items = append(items, item)
 	}
