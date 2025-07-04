@@ -1,14 +1,13 @@
-package main
+package goset
 
 import "fmt"
 
-type Any interface{}
-type Set map[Any]struct{}
+type Set map[any]struct{}
 
 type EmptyValue struct{}
 
-// Add adds an item Anyo the set and returns true if the item was added, false if it was already present.
-func (set Set) Add(item Any) bool {
+// Add adds an item any the set and returns true if the item was added, false if it was already present.
+func (set Set) Add(item any) bool {
 	if _, exists := set[item]; !exists {
 		set[item] = EmptyValue{}
 		return true
@@ -24,13 +23,13 @@ func (set Set) Clear() {
 }
 
 // Has checks if an item is present in the set.
-func (set Set) Has(item Any) bool {
+func (set Set) Has(item any) bool {
 	_, exists := set[item]
 	return exists
 }
 
 // Remove removes an item from the set and returns true if the item was present, false otherwise.
-func (set Set) Remove(item Any) bool {
+func (set Set) Remove(item any) bool {
 	_, exists := set[item]
 	if !exists {
 		return false
@@ -40,8 +39,8 @@ func (set Set) Remove(item Any) bool {
 }
 
 // All returns a slice of all items in the set.
-func (set Set) All() []Any {
-	items := make([]Any, 0, len(set))
+func (set Set) All() []any {
+	items := make([]any, 0, len(set))
 	for item := range set {
 		items = append(items, item)
 	}
@@ -75,19 +74,4 @@ func (set Set) String() string {
 // NewSet creates a new empty set.
 func NewSet() Set {
 	return make(Set)
-}
-
-func main() {
-	s := NewSet()
-	s.Add("String")
-	s.Add(10)
-	s.Add(3.14)
-	s.Add(struct{ x int }{x: 1})
-	fmt.Println(s)
-	x := make([]string, 0)
-	s.Add(x)
-	if !s.Add(struct{ x int }{x: 1}) {
-		fmt.Println("struct{ x int }{x: 1} is repetitive! Set count:", s.Count())
-	}
-
 }
