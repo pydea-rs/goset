@@ -73,7 +73,14 @@ func (set Set) String() string {
 	return s
 }
 
-// NewSet creates a new empty set.
-func NewSet() Set {
-	return make(Set)
+// New creates a new empty set.
+func New(initials ...Any) Set {
+	if len(initials) == 0 {
+		return make(Set)
+	}
+	set := make(Set)
+	for _, item := range initials {
+		set.Add(item)
+	}
+	return set
 }
